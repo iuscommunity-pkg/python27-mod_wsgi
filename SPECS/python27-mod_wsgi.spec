@@ -8,16 +8,16 @@
 %global __python %{_bindir}/python%{pybasever}
 
 Name:           python%{pyver}-mod_wsgi
-Version:        3.4
-Release:        2.ius%{?dist}
+Version:        4.1.1
+Release:        1.ius%{?dist}
 Summary:        A WSGI interface for Python web applications in Apache
 
 Group:          System Environment/Libraries
 License:        ASL 2.0
 Vendor:         IUS Community Project
-URL:            http://modwsgi.org
-Source0:        http://modwsgi.googlecode.com/files/%{real_name}-%{version}.tar.gz 
-Source1:        python27-mod_wsgi.conf 
+URL:            http://modwsgi.readthedocs.org
+Source0:        https://github.com/GrahamDumpleton/mod_wsgi/archive/%{version}.tar.gz
+Source1:        python27-mod_wsgi.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  httpd-devel
@@ -36,7 +36,7 @@ for hosting WSGI applications within Apache has a lower overhead than using
 existing WSGI adapters for mod_python or CGI.
 
 
-%prep 
+%prep
 %setup -q -n %{real_name}-%{version}
 
 
@@ -60,12 +60,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc LICENCE README
+%doc LICENCE README.rst
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_libdir}/httpd/modules/%{name}.so
 
 
 %changelog
+* Fri May 30 2014 Ben Harper <ben.harper@rackspace.com> - 4.1.1-1.ius
+- Latest sources from upstream
+
 * Mon Nov 26 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.4-2.ius
 - Porting to python27
 

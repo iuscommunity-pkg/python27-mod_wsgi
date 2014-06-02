@@ -1,32 +1,26 @@
+%global pymajor 2
+%global pyminor 7
+%global pyver %{pymajor}.%{pyminor}
+%global iusver %{pymajor}%{pyminor}
+%global __python2 %{_bindir}/python%{pyver}
+%global python2_sitelib  %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global srcname mod_wsgi
 
-%global pybasever 2.7
-%global pyver 27
-%global real_name mod_wsgi
-
-# not supported by python27 in IUS currently
-#%%global __os_install_post %{__python26_os_install_post}
-%global __python %{_bindir}/python%{pybasever}
-
-Name:           python%{pyver}-mod_wsgi
+Name:           python%{iusver}-%{srcname}
 Version:        4.1.1
 Release:        1.ius%{?dist}
-Summary:        A WSGI interface for Python web applications in Apache
-
+Summary:        Python WSGI adapter module for Apache
+Vendor:         IUS Community Project
 Group:          System Environment/Libraries
 License:        ASL 2.0
-Vendor:         IUS Community Project
 URL:            http://modwsgi.readthedocs.org
-Source0:        https://github.com/GrahamDumpleton/mod_wsgi/archive/%{version}.tar.gz
-Source1:        python27-mod_wsgi.conf
+Source0:        https://github.com/GrahamDumpleton/%{srcname}/archive/%{version}.tar.gz
+Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 BuildRequires:  httpd-devel
-BuildRequires:  python%{pyver}, python%{pyver}-devel
-Provides:       %{real_name} = %{version}
-
-Obsoletes:      mod_wsgi-python%{pyver} < 3.2-2
-Provides:       mod_wsgi-python%{pyver} = %{version}-%{release}
-
+BuildRequires:  python%{iusver}-devel
+Provides:       %{srcname} = %{version}
 
 %description
 The mod_wsgi adapter is an Apache module that provides a WSGI compliant
@@ -37,26 +31,24 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %prep
-%setup -q -n %{real_name}-%{version}
+%setup -q -n %{srcname}-%{version}
 
 
 %build
-%configure --with-python=python%{pybasever}
+%configure --with-python=%{__python3}
 make LDFLAGS="-L%{_libdir}" %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-
+rm -rf %{buildroot}
+make install DESTDIR=%{buildroot}
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d
 install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/conf.d/%{name}.conf
+mv %{buildroot}%{_libdir}/httpd/modules/{%{srcname},%{name}}.so
 
-mv  %{buildroot}%{_libdir}/httpd/modules/mod_wsgi.so \
-    %{buildroot}%{_libdir}/httpd/modules/%{name}.so
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)

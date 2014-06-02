@@ -20,6 +20,8 @@ Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  httpd-devel
 BuildRequires:  python%{iusver}-devel
+Requires:       httpd
+Requires:       python%{iusver}
 Provides:       %{srcname} = %{version}
 
 %description

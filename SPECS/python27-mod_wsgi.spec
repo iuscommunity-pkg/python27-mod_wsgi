@@ -37,7 +37,7 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %build
-%configure --with-python=%{__python3}
+%configure --with-python=%{__python2}
 make LDFLAGS="-L%{_libdir}" %{?_smp_mflags}
 
 

@@ -9,7 +9,7 @@
 %global srcname mod_wsgi
 
 Name:           python%{iusver}-%{srcname}
-Version:        4.1.2
+Version:        4.1.3
 Release:        1.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
@@ -60,6 +60,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jun 05 2014 Carl George <carl.george@rackspace.com> - 4.1.3-1.ius
+- Latest sources from upstream
+- Override __os_install_post to fix .pyc/pyo magic
+
 * Mon Jun 02 2014 Carl George <carl.george@rackspace.com> - 4.1.2-1.ius
 - Latest sources from upstream
 - Implement python packaging best practices

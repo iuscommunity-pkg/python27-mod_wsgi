@@ -7,6 +7,7 @@
 %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global __os_install_post %{__python27_os_install_post}
 %global srcname mod_wsgi
+%global src %(echo %{srcname} | cut -c1)
 
 Name:           python%{iusver}-%{srcname}
 Version:        4.1.3
@@ -16,7 +17,7 @@ Vendor:         IUS Community Project
 Group:          System Environment/Libraries
 License:        ASL 2.0
 URL:            http://modwsgi.readthedocs.org
-Source0:        https://github.com/GrahamDumpleton/%{srcname}/archive/%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
 Source1:        %{name}.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  httpd-devel

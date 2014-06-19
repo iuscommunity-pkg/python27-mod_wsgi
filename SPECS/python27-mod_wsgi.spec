@@ -40,18 +40,18 @@ existing WSGI adapters for mod_python or CGI.
 
 %build
 %configure --with-python=%{__python2}
-make LDFLAGS="-L%{_libdir}" %{?_smp_mflags}
+%{__make} LDFLAGS="-L%{_libdir}" %{?_smp_mflags}
 
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
-install -Dpm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
-mv %{buildroot}%{_libdir}/httpd/modules/{%{srcname},%{name}}.so
+%{__rm} -rf %{buildroot}
+%{__make} install DESTDIR=%{buildroot}
+%{__install} -Dpm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+%{__mv} %{buildroot}%{_libdir}/httpd/modules/{%{srcname},%{name}}.so
 
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)

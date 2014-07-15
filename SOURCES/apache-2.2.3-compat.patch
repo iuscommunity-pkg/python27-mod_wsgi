@@ -1,6 +1,6 @@
 diff -Naur a/mod_wsgi/src/server/wsgi_interp.c b/mod_wsgi/src/server/wsgi_interp.c
---- a/mod_wsgi/src/server/wsgi_interp.c	2014-07-15 09:15:09.075228794 -0500
-+++ b/mod_wsgi/src/server/wsgi_interp.c	2014-07-15 10:34:00.125241059 -0500
+--- a/src/server/wsgi_interp.c	2014-07-15 09:15:09.075228794 -0500
++++ b/src/server/wsgi_interp.c	2014-07-15 10:34:00.125241059 -0500
 @@ -1168,7 +1168,11 @@
      object = PyLong_FromLong(max_threads);
      PyModule_AddObject(module, "threads_per_process", object);

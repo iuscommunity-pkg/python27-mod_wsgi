@@ -11,7 +11,7 @@
 
 Name:           python%{iusver}-%{srcname}
 Version:        4.2.5
-Release:        1.ius%{?dist}
+Release:        2.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
 Group:          System Environment/Libraries
@@ -26,6 +26,12 @@ Requires:       httpd
 Requires:       python%{iusver}
 Provides:       %{srcname} = %{version}
 
+# Backport fix for segfault on apache httpd 2.2.3 (el5)
+# https://bugs.launchpad.net/ius/+bug/1341325
+# https://groups.google.com/forum/#!topic/modwsgi/DnvZ8lWokYs
+Patch0:         apache-2.2.3-compat.patch
+
+
 %description
 The mod_wsgi adapter is an Apache module that provides a WSGI compliant
 interface for hosting Python based web applications within Apache. The
@@ -36,6 +42,7 @@ existing WSGI adapters for mod_python or CGI.
 
 %prep
 %setup -q -n %{srcname}-%{version}
+%patch0 -p1
 
 
 %build
@@ -53,6 +60,7 @@ existing WSGI adapters for mod_python or CGI.
 %clean
 %{__rm} -rf %{buildroot}
 
+
 %files
 %defattr(-,root,root,-)
 %doc LICENCE README.rst
@@ -61,6 +69,10 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %changelog
+* Tue Jul 15 2014 Carl George <carl.george@rackspace.com> - 4.2.5-2.ius
+- Backport fix for segfault on apache httpd 2.2.3 (el5)
+  https://bugs.launchpad.net/ius/+bug/1341325
+
 * Mon Jul 07 2014 Carl George <carl.george@rackspace.com> - 4.2.5-1.ius
 - Latest upstream
 

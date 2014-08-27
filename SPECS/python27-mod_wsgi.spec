@@ -57,7 +57,7 @@ existing WSGI adapters for mod_python or CGI.
 
 %files
 %defattr(-,root,root,-)
-%doc LICENCE README.rst
+%doc LICENSE README.rst
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_libdir}/httpd/modules/%{name}.so
 

@@ -19,7 +19,7 @@ License:        ASL 2.0
 URL:            http://modwsgi.readthedocs.org
 Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
 Source1:        %{name}.conf
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+%{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildRequires:  httpd-devel
 BuildRequires:  python%{iusver}-devel
 Requires:       httpd
@@ -45,14 +45,14 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %install
-%{__rm} -rf %{buildroot}
+%{?el5:%{__rm} -rf %{buildroot}}
 %{__make} install DESTDIR=%{buildroot}
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{__mv} %{buildroot}%{_libdir}/httpd/modules/{%{srcname},%{name}}.so
 
 
-%clean
-%{__rm} -rf %{buildroot}
+%{?el5:%clean}
+%{?el5:%{__rm} -rf %{buildroot}}
 
 
 %files

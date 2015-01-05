@@ -10,7 +10,7 @@
 %global src %(echo %{srcname} | cut -c1)
 
 Name:           python%{iusver}-%{srcname}
-Version:        4.4.2
+Version:        4.4.5
 Release:        1.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
@@ -62,6 +62,9 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %changelog
+* Mon Jan 05 2015 Carl George <carl.george@rackspace.com> - 4.4.5-1.ius
+- Latest upstream
+
 * Thu Dec 18 2014 Carl George <carl.george@rackspace.com> - 4.4.2-1.ius
 - Latest upstream
 

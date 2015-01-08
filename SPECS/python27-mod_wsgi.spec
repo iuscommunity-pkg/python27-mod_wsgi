@@ -9,9 +9,11 @@
 %global srcname mod_wsgi
 %global src %(echo %{srcname} | cut -c1)
 
+%{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}}
+
 Name:           python%{iusver}-%{srcname}
 Version:        4.4.5
-Release:        1.ius%{?dist}
+Release:        2.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
 Group:          System Environment/Libraries
@@ -20,9 +22,13 @@ URL:            http://modwsgi.readthedocs.org
 Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
 Source1:        %{name}.conf
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
+%if 0%{?rhel} < 7
+BuildRequires:  httpd-devel < 2.4
+%else
 BuildRequires:  httpd-devel
+%endif
 BuildRequires:  python%{iusver}-devel
-Requires:       httpd
+Requires:       httpd-mmn = %{_httpd_mmn}
 Requires:       python%{iusver}
 Provides:       %{srcname} = %{version}
 
@@ -62,6 +68,9 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %changelog
+* Thu Jan 08 2015 Carl George <carl.george@rackspace.com> - 4.4.5-2.ius
+- Ensure we build against and require the stock version of httpd
+
 * Mon Jan 05 2015 Carl George <carl.george@rackspace.com> - 4.4.5-1.ius
 - Latest upstream
 

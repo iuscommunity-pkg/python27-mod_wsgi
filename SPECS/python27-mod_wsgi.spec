@@ -12,7 +12,7 @@
 %{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}}
 
 Name:           python%{iusver}-%{srcname}
-Version:        4.4.12
+Version:        4.4.13
 Release:        1.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
@@ -68,6 +68,9 @@ existing WSGI adapters for mod_python or CGI.
 
 
 %changelog
+* Tue Jun 16 2015 Ben Harper <ben.harper@rackspace.com> - 4.4.13-1.ius
+- Latest upstream
+
 * Mon Jun 01 2015 Ben Harper <ben.harper@rackspace.com> - 4.4.12-1.ius
 - Latest upstream
 

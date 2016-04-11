@@ -26,7 +26,7 @@ Source1:        %{name}.conf
 BuildRequires:  httpd-devel < 2.4.10
 BuildRequires:  python%{iusver}-devel
 Requires:       httpd-mmn = %{_httpd_mmn}
-Requires:       python%{iusver}
+
 Provides:       %{srcname} = %{version}
 
 %{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}

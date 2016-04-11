@@ -7,7 +7,6 @@
 %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global __os_install_post %{__python27_os_install_post}
 %global srcname mod_wsgi
-%global src %(echo %{srcname} | cut -c1)
 
 %{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}}
 
@@ -19,7 +18,7 @@ Vendor:         IUS Community Project
 Group:          System Environment/Libraries
 License:        ASL 2.0
 URL:            http://modwsgi.readthedocs.org
-Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        http://github.srcurl.net/GrahamDumpleton/%{srcname}/%{version}/%{srcname}-%{version}.tar.gz
 Source1:        %{name}.conf
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 %if 0%{?rhel} < 7
@@ -70,6 +69,7 @@ existing WSGI adapters for mod_python or CGI.
 %changelog
 * Mon Apr 11 2016 Carl George <carl.george@rackspace.com> - 4.5.1-1.ius
 - Latest upstream
+- Switch to GitHub source via srcurl.net
 
 * Tue Jan 26 2016 Ben Harper <ben.harper@rackspace.com> - 4.4.22-1.ius
 - Latest upstream

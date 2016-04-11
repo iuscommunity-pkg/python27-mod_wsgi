@@ -29,6 +29,9 @@ Requires:       httpd-mmn = %{_httpd_mmn}
 Requires:       python%{iusver}
 Provides:       %{srcname} = %{version}
 
+%{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}
+%{?filter_setup}
+
 
 %description
 The mod_wsgi adapter is an Apache module that provides a WSGI compliant
@@ -71,6 +74,7 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 - Latest upstream
 - Switch to GitHub source via srcurl.net
 - Use configure/install flags from Fedora
+- Filter auto-provides
 
 * Tue Jan 26 2016 Ben Harper <ben.harper@rackspace.com> - 4.4.22-1.ius
 - Latest upstream

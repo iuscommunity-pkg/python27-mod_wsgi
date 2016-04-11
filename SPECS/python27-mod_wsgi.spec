@@ -173,7 +173,7 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 * Mon Nov 26 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.4-2.ius
 - Porting to python27
 
-* Mon Apr 28 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.4-1.ius
+* Sat Apr 28 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.4-1.ius
 - Latest sources from upstream
 
 * Mon Apr 16 2012 Jeffrey Ness <jeffrey.ness@rackspace.com> - 3.3-4.ius

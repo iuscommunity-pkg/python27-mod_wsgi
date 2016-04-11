@@ -21,11 +21,7 @@ URL:            http://modwsgi.readthedocs.org
 Source0:        http://github.srcurl.net/GrahamDumpleton/%{srcname}/%{version}/%{srcname}-%{version}.tar.gz
 Source1:        %{name}.conf
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
-%if 0%{?rhel} < 7
-BuildRequires:  httpd-devel < 2.4
-%else
-BuildRequires:  httpd-devel
-%endif
+BuildRequires:  httpd-devel < 2.4.10
 BuildRequires:  python%{iusver}-devel
 Requires:       httpd-mmn = %{_httpd_mmn}
 Requires:       python%{iusver}

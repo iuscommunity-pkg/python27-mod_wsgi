@@ -13,7 +13,7 @@
 %{!?_httpd_moddir:    %{expand: %%global _httpd_moddir    %%{_libdir}/httpd/modules}}
 
 Name:           python%{iusver}-%{srcname}
-Version:        4.5.6
+Version:        4.5.7
 Release:        1.ius%{?dist}
 Summary:        Python WSGI adapter module for Apache
 Vendor:         IUS Community Project
@@ -70,6 +70,9 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 
 
 %changelog
+* Wed Sep 21 2016 Ben Harper <ben.harper@rackspace.com> - 4.5.7-1.ius
+- Latest upstream
+
 * Tue Sep 06 2016 Ben Harper <ben.harper@rackspace.com> - 4.5.6-1.ius
 - Latest upstream
 

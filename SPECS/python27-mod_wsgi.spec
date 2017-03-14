@@ -70,7 +70,7 @@ export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 
 
 %changelog
-* Tue Mar 14 2017 Ben Harper <ben.harper@rackspace.com> - 4.5-15-1.ius
+* Tue Mar 14 2017 Ben Harper <ben.harper@rackspace.com> - 4.5.15-1.ius
 - Latest upstream
 
 * Wed Jan 25 2017 Carl George <carl.george@rackspace.com> - 4.5.14-1.ius

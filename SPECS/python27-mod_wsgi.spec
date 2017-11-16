@@ -14,7 +14,7 @@ Release:        1.ius%{?dist}
 Summary:        A WSGI interface for Python web applications in Apache
 License:        ASL 2.0
 URL:            https://modwsgi.readthedocs.io/
-Source0:        https://files.pythonhosted.org/packages/source/m/mod_wgsi/mod_wsgi-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/m/mod_wsgi/mod_wsgi-%{version}.tar.gz
 Source1:        %{name}.conf
 BuildRequires:  httpd-devel < 2.4.10
 BuildRequires:  %{python}-devel

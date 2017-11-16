@@ -1,32 +1,24 @@
-%global pymajor 2
-%global pyminor 7
-%global pyver %{pymajor}.%{pyminor}
-%global iusver %{pymajor}%{pyminor}
-%global __python2 %{_bindir}/python%{pyver}
-%global python2_sitelib  %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%global __os_install_post %{__python27_os_install_post}
+# IUS spec file for python27-mod_wsgi, forked from Fedora
+
 %global srcname mod_wsgi
+%global python python27
 
 %{!?_httpd_apxs: %{expand: %%global _httpd_apxs %%{_sbindir}/apxs}}
 %{!?_httpd_mmn: %{expand: %%global _httpd_mmn %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}}
+%{!?_httpd_confdir:    %{expand: %%global _httpd_confdir    %%{_sysconfdir}/httpd/conf.d}}
 %{!?_httpd_moddir:    %{expand: %%global _httpd_moddir    %%{_libdir}/httpd/modules}}
 
-Name:           python%{iusver}-%{srcname}
-Version:        4.5.19
+Name:           %{python}-%{srcname}
+Version:        4.5.21
 Release:        1.ius%{?dist}
-Summary:        Python WSGI adapter module for Apache
-Vendor:         IUS Community Project
-Group:          System Environment/Libraries
+Summary:        A WSGI interface for Python web applications in Apache
 License:        ASL 2.0
-URL:            http://modwsgi.readthedocs.org
-Source0:        http://github.srcurl.net/GrahamDumpleton/%{srcname}/%{version}/%{srcname}-%{version}.tar.gz
+URL:            https://modwsgi.readthedocs.io/
+Source0:        https://files.pythonhosted.org/packages/source/m/mod_wgsi/mod_wsgi-%{version}.tar.gz
 Source1:        %{name}.conf
-%{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildRequires:  httpd-devel < 2.4.10
-BuildRequires:  python%{iusver}-devel
+BuildRequires:  %{python}-devel
 Requires:       httpd-mmn = %{_httpd_mmn}
-
 Provides:       %{srcname} = %{version}
 
 %{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}
@@ -48,28 +40,26 @@ existing WSGI adapters for mod_python or CGI.
 %build
 export LDFLAGS="$RPM_LD_FLAGS -L%{_libdir}"
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
-%configure --enable-shared --with-apxs=%{_httpd_apxs} --with-python=%{__python2}
+%configure --enable-shared --with-apxs=%{_httpd_apxs} --with-python=%{__python27}
 %{__make} %{?_smp_mflags}
 
 
 %install
-%{?el5:%{__rm} -rf %{buildroot}}
 %{__make} install DESTDIR=%{buildroot} LIBEXECDIR=%{_httpd_moddir}
-%{__install} -Dpm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
-%{__mv} %{buildroot}%{_libdir}/httpd/modules/{%{srcname},%{name}}.so
-
-
-%{?el5:%clean}
-%{?el5:%{__rm} -rf %{buildroot}}
+%{__install} -Dpm 644 %{SOURCE1} %{buildroot}%{_httpd_confdir}/%{name}.conf
+%{__mv} %{buildroot}%{_httpd_moddir}/{%{srcname},%{name}}.so
 
 
 %files
-%doc LICENSE README.rst
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-%{_libdir}/httpd/modules/%{name}.so
+%doc LICENSE CREDITS.rst README.rst
+%config(noreplace) %{_httpd_confdir}/%{name}.conf
+%{_httpd_moddir}/%{name}.so
 
 
 %changelog
+* Thu Nov 16 2017 Carl George <carl@george.computer> - 4.5.21-1.ius
+- Latest upstream
+
 * Mon Oct 02 2017 Carl George <carl@george.computer> - 4.5.19-1.ius
 - Latest upstream
 

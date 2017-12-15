@@ -1,0 +1,11 @@
+--- mod_wsgi-4.5.24/docs/Makefile	2017-12-15 09:49:11.000000000 +0000
++++ mod_wsgi-4.5.24/docs/Makefile.patch	2017-12-15 14:22:14.889095811 +0000
+@@ -3,7 +3,7 @@
+ 
+ # You can set these variables from the command line.
+ SPHINXOPTS    =
+-SPHINXBUILD   = sphinx-build
++SPHINXBUILD   = sphinx-1.0-build
+ PAPER         =
+ BUILDDIR      = _build
+ 

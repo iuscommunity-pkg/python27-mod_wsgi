@@ -9,15 +9,22 @@
 %{!?_httpd_moddir:    %{expand: %%global _httpd_moddir    %%{_libdir}/httpd/modules}}
 
 Name:           %{python}-%{srcname}
-Version:        4.5.21
+Version:        4.5.24
 Release:        1.ius%{?dist}
 Summary:        A WSGI interface for Python web applications in Apache
 License:        ASL 2.0
 URL:            https://modwsgi.readthedocs.io/
-Source0:        https://files.pythonhosted.org/packages/source/m/mod_wsgi/mod_wsgi-%{version}.tar.gz
+Source0:        https://github.com/GrahamDumpleton/mod_wsgi/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
 Source1:        %{name}.conf
+Patch0:		mod_wsgi-4.5.24-sphinx-build.patch
 BuildRequires:  httpd-devel < 2.4.10
 BuildRequires:  %{python}-devel
+BuildRequires:	%{python}-setuptools
+#needed for docs only
+BuildRequires:	python-sphinx10
+BuildRequires:	python-sphinx_rtd_theme
+
+Requires:	%{python}-setuptools
 Requires:       httpd-mmn = %{_httpd_mmn}
 Provides:       %{srcname} = %{version}
 
@@ -35,28 +42,46 @@ existing WSGI adapters for mod_python or CGI.
 
 %prep
 %setup -q -n %{srcname}-%{version}
+%patch0 -p1
 
 
 %build
+make -C docs html
+
 export LDFLAGS="$RPM_LD_FLAGS -L%{_libdir}"
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %configure --enable-shared --with-apxs=%{_httpd_apxs} --with-python=%{__python27}
 %{__make} %{?_smp_mflags}
+%py2_build
 
 
 %install
 %{__make} install DESTDIR=%{buildroot} LIBEXECDIR=%{_httpd_moddir}
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}%{_httpd_confdir}/%{name}.conf
 %{__mv} %{buildroot}%{_httpd_moddir}/{%{srcname},%{name}}.so
-
+%py2_install
+mv $RPM_BUILD_ROOT%{_bindir}/mod_wsgi-express{,-2}
+ln -s %{_bindir}/mod_wsgi-express-2 $RPM_BUILD_ROOT%{_bindir}/mod_wsgi-express
 
 %files
-%doc LICENSE CREDITS.rst README.rst
+%license LICENSE
+%doc CREDITS.rst README.rst
 %config(noreplace) %{_httpd_confdir}/%{name}.conf
 %{_httpd_moddir}/%{name}.so
+%{python27_sitearch}/mod_wsgi-*.egg-info
+%{python27_sitearch}/mod_wsgi
+%{_bindir}/mod_wsgi-express-2
+%{_bindir}/mod_wsgi-express
 
 
 %changelog
+* Fri Dec 15 2017 Ben Harper <ben.harper@rackspace.com> - 4.5.25-1.ius
+- Latest upstream
+- update URL from Fedora:
+  https://src.fedoraproject.org/rpms/mod_wsgi/c/5585f33d82e1f027384d70df753b545ac7ab36de
+- build docs and mod_wsgi-express from Fedora:
+  https://src.fedoraproject.org/rpms/mod_wsgi/c/241a680c246d91f55a733aa1f45a480697c28ff4
+
 * Thu Nov 16 2017 Carl George <carl@george.computer> - 4.5.21-1.ius
 - Latest upstream
 

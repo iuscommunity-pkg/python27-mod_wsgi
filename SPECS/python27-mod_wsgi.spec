@@ -9,7 +9,7 @@
 %{!?_httpd_moddir:    %{expand: %%global _httpd_moddir    %%{_libdir}/httpd/modules}}
 
 Name:           %{python}-%{srcname}
-Version:        4.5.24
+Version:        4.6.2
 Release:        1.ius%{?dist}
 Summary:        A WSGI interface for Python web applications in Apache
 License:        ASL 2.0
@@ -17,6 +17,7 @@ URL:            https://modwsgi.readthedocs.io/
 Source0:        https://github.com/GrahamDumpleton/mod_wsgi/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
 Source1:        %{name}.conf
 Patch0:		mod_wsgi-4.5.24-sphinx-build.patch
+Patch1:		mod_wsgi-4.6.2-exports.patch
 BuildRequires:  httpd-devel < 2.4.10
 BuildRequires:  %{python}-devel
 BuildRequires:	%{python}-setuptools
@@ -43,6 +44,7 @@ existing WSGI adapters for mod_python or CGI.
 %prep
 %setup -q -n %{srcname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 
 %build
@@ -75,6 +77,11 @@ ln -s %{_bindir}/mod_wsgi-express-2 $RPM_BUILD_ROOT%{_bindir}/mod_wsgi-express
 
 
 %changelog
+* Tue Mar 06 2018 Ben Harper <ben.harper@rackspace.com> - 4.6.2-1.ius
+- Latest upstream
+- add Patch1, adapted from Fedora:
+  https://src.fedoraproject.org/rpms/mod_wsgi/c/c8a7642dcf4742963337e1c4e15b1263951c6ce6
+
 * Fri Dec 15 2017 Ben Harper <ben.harper@rackspace.com> - 4.5.25-1.ius
 - Latest upstream
 - update URL from Fedora:

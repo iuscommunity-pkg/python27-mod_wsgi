@@ -1,0 +1,11 @@
+--- mod_wsgi-4.6.2/Makefile.in	2018-03-04 10:25:10.000000000 +0000
++++ mod_wsgi-4.6.2/Makefile.in.patch	2018-03-06 14:56:23.667367633 +0000
+@@ -28,7 +28,7 @@
+ all : src/server/mod_wsgi.la
+ 
+ src/server/mod_wsgi.la : $(SRCFILES)
+-	$(APXS) -c $(CPPFLAGS) $(CFLAGS) $(SRCFILES) $(LDFLAGS) $(LDLIBS)
++	$(APXS) -Wl,-export-symbols-regex -Wl,wsgi_module -c $(CPPFLAGS) $(CFLAGS) $(SRCFILES) $(LDFLAGS) $(LDLIBS)
+ 
+ $(DESTDIR)$(LIBEXECDIR) :
+ 	mkdir -p $@
